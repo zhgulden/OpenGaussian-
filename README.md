@@ -59,22 +59,22 @@ The files are as follows:
 ```
 [DATA_ROOT]
 ├── [1] scannet/
-│   │   ├── scene0000_00
+│   │   ├── scene0000_00/
 |   |   |   |── color/
 |   |   |   |── language_features/
 |   |   |   |── points3d.ply
 |   |   |   |── transforms_train/test.json
 |   |   |   |── *_vh_clean_2.labels.ply
-│   │   ├── scene0062_00
+│   │   ├── scene0062_00/
 │   │   └── ...
 ├── [2] waymo/
-│   │   ├── 11724067***
+│   │   ├── 11724067*****/
 |   |   |   |── images/
 |   |   |   |── language_features/
 |   |   |   |── sparse/
-│   │   ├── 10275144***
+│   │   ├── 10275144*****/
 │   │   └── ...
-├── [3] lerf_ovs
+├── [3] lerf_ovs/
 │   │   ├── figurines/ & ramen/ & teatime/ & waldo_kitchen/
 |   |   |   |── images/
 |   |   |   |── language_features/
@@ -117,7 +117,7 @@ chmod +x scripts/train_scannet.sh
 ### 3.3 LeRF_ovs
 ```shell
 chmod +x scripts/train_lerf.sh
-./scripts/train_scannet.sh
+./scripts/train_lerf.sh
 ```
 + Please ***check*** the script for more details and ***modify*** the dataset path.
 + Intermediate results from different stages can be found in subfolders `***/train_process/stage*`.
@@ -199,4 +199,4 @@ We are quite grateful for [3DGS](https://github.com/graphdeco-inria/gaussian-spl
 ---
 
 ## 7. Contact
-If you have any question about this project, please feel free to contact [Yanmin Wu](https://yanmin-wu.github.io/): wuyanminmax[AT]gmail.com
+If you have any questions about this project, please feel free to contact [Yanmin Wu](https://yanmin-wu.github.io/): wuyanminmax[AT]gmail.com
