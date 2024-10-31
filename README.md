@@ -59,27 +59,27 @@ The files are as follows:
 ```
 [DATA_ROOT]
 ├── [1] scannet/
-│	│	├── scene0000_00
+│   │   ├── scene0000_00
 |   |   |   |── color/
 |   |   |   |── language_features/
 |   |   |   |── points3d.ply
 |   |   |   |── transforms_train/test.json
 |   |   |   |── *_vh_clean_2.labels.ply
-│	│	├── scene0062_00
-│	│	└── ...
+│   │   ├── scene0062_00
+│   │   └── ...
 ├── [2] waymo/
-│	│	├── 11724067***
+│   │   ├── 11724067***
 |   |   |   |── images/
 |   |   |   |── language_features/
 |   |   |   |── sparse/
-│	│	├── 10275144***
-│	│	└── ...
+│   │   ├── 10275144***
+│   │   └── ...
 ├── [3] lerf_ovs
-│	│	├── figurines & ramen & teatime & waldo_kitchen
+│   │   ├── figurines/ & ramen/ & teatime/ & waldo_kitchen/
 |   |   |   |── images/
 |   |   |   |── language_features/
 |   |   |   |── sparse/
-│	│	├── label/
+│   │   ├── label/
 ```
 + **[1] Prepare ScanNet Data**
     + You can directly download our pre-processed data: [**OneDrive**](https://onedrive.live.com/?authkey=%21AIgsXZy3gl%5FuKmM&id=744D3E86422BE3C9%2139813&cid=744D3E86422BE3C9). Please unzip the `color.zip` and `language_features.zip` files.
