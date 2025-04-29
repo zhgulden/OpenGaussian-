@@ -2,8 +2,10 @@
 
 # [NeurIPS2024🔥] OpenGaussian: Towards Point-Level 3D Gaussian-based Open Vocabulary Understanding
 
+<!-- <a href="https://arxiv.org/abs/2406.02058"><strong>Paper</strong></a> |  -->
+
 <h3>
-  <a href="https://arxiv.org/abs/2406.02058"><strong>Paper</strong></a> | 
+  <strong>Paper(<a href="https://arxiv.org/abs/2406.02058">arXiv</a> / <a href="https://proceedings.neurips.cc/paper_files/paper/2024/hash/21f7b745f73ce0d1f9bcea7f40b1388e-Abstract-Conference.html">Conference</a>)</strong> | 
   <a href="https://3d-aigc.github.io/OpenGaussian/"><strong>Project Page</strong></a>
 </h3>
 
@@ -46,10 +48,10 @@ pip install ./ashawkey-diff-gaussian-rasterization
 
 ## 1. ToDo list
 
-+ [x] ~~Point feature visualization~~
-+ [ ] Data preprocessing
-+ [ ] Improved SAM mask extraction (extracting only one layer)
-+ [ ] Click to Select 3D Object
++ [x] Point feature visualization
++ [x] Data preprocessing
++ ~~[ ] Improved SAM mask extraction (extracting only one layer)~~
++ [x] Click to Select 3D Object
 
 ---
 
@@ -76,7 +78,10 @@ The files are as follows:
 + **[1] Prepare ScanNet Data**
     + You can directly download our pre-processed data: [**OneDrive**](https://onedrive.live.com/?authkey=%21AIgsXZy3gl%5FuKmM&id=744D3E86422BE3C9%2139813&cid=744D3E86422BE3C9). Please unzip the `color.zip` and `language_features.zip` files.
     + The ScanNet dataset requires permission for use, following the [ScanNet instructions](https://github.com/ScanNet/ScanNet) to apply for dataset permission.
-    + The preprocessing script will be updated later.
+    + **If you want to process more scenes from the ScanNet dataset, you can follow these steps:**
+	    + First, use the official `download-scannet.py` script provided by ScanNet to download the `.sens` archive of the specified scenes;
+	    + Then, refer to the [`preprocess_2d_scannet.py`](https://github.com/pengsongyou/openscene/blob/main/scripts/preprocess/preprocess_2d_scannet.py) script to extract the `color` and `pose` information;
+	    + Finally, convert the data into Blender format using the [`scripts/scannet2blender.py`](https://github.com/yanmin-wu/OpenGaussian/blob/main/scripts/scannet2blender.py) script. Please check the `TODO` comments in the script to specify the paths.
 + **[2] Prepare lerf_ovs Data**
     + You can directly download our pre-processed data: [**OneDrive**](https://onedrive.live.com/?authkey=%21AIgsXZy3gl%5FuKmM&id=744D3E86422BE3C9%2139815&cid=744D3E86422BE3C9) (re-annotated by LangSplat). Please unzip the `images.zip` and `language_features.zip` files.
 + **Mask and Language Feature Extraction Details**
@@ -118,7 +123,7 @@ chmod +x scripts/train_lerf.sh
 + Intermediate results from different stages can be found in subfolders `***/train_process/stage*`.
 
 ### 3.3 Custom data
-+ TODO
++ Without any special processing, videos are first captured, approximately 200 frames are sampled, and COLMAP is then used to initialize the point cloud and camera poses.
 
 ---
 
@@ -176,7 +181,9 @@ chmod +x scripts/train_lerf.sh
 
 ### 4.5 Click to Select 3D Object
 
-+ TODO
++ (1) First, you need to render the feature maps (refer to Step 4.3; in practice, only two feature maps from a single view are required).
++ (2) Then, check the [`scripts/render_by_click.py`](https://github.com/yanmin-wu/OpenGaussian/blob/main/scripts/render_by_click.py) script for `TODO` comments, including specifying the frame filename, clicked pixel coordinates, and file paths.
++ (3) Finally, run the [`scripts/render_by_click.py`](https://github.com/yanmin-wu/OpenGaussian/blob/main/scripts/render_by_click.py) script. *Note that this script has not been tested with the current version of the code and may require debugging*.
 
 ---
 
@@ -188,10 +195,11 @@ We are quite grateful for [3DGS](https://github.com/graphdeco-inria/gaussian-spl
 ## 6. Citation
 
 ```
-@article{wu2024opengaussian,
+@inproceedings{wu2024opengaussian,
     title={OpenGaussian: Towards Point-Level 3D Gaussian-based Open Vocabulary Understanding},
-    author={Wu, Yanmin and Meng, Jiarui and Li, Haijie and Wu, Chenming and Shi, Yahao and Cheng, Xinhua and Zhao, Chen and Feng, Haocheng and Ding, Errui and Wang, Jingdong and others},
-    journal={arXiv preprint arXiv:2406.02058},
+    author={Wu, Yanmin and Meng, Jiarui and Li, Haijie and Wu, Chenming and Shi, Yahao and Cheng, Xinhua and Zhao, Chen and Feng, Haocheng and Ding, Errui and Wang, Jingdong and Zhang, Jian},
+    booktitle={Proceedings of the Advances in Neural Information Processing Systems (NeurIPS)},
+    pages={19114--19138},
     year={2024}
 }
 ```
