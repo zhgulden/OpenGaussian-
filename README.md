@@ -76,14 +76,14 @@ The files are as follows:
 │   │   ├── label/
 ```
 + **[1] Prepare ScanNet Data**
-    + You can directly download our pre-processed data: [**OneDrive**](https://onedrive.live.com/?authkey=%21AIgsXZy3gl%5FuKmM&id=744D3E86422BE3C9%2139813&cid=744D3E86422BE3C9). Please unzip the `color.zip` and `language_features.zip` files.
+    + You can directly download our pre-processed data: [**OneDrive**](https://onedrive.live.com/?authkey=%21AIgsXZy3gl%5FuKmM&id=744D3E86422BE3C9%2139813&cid=744D3E86422BE3C9) / [Baidu](https://pan.baidu.com/s/1B_tGYla5dWyJRu3jTNTMvA?pwd=u5iy). Please unzip the `color.zip` and `language_features.zip` files.
     + The ScanNet dataset requires permission for use, following the [ScanNet instructions](https://github.com/ScanNet/ScanNet) to apply for dataset permission.
     + **If you want to process more scenes from the ScanNet dataset, you can follow these steps:**
 	    + First, use the official `download-scannet.py` script provided by ScanNet to download the `.sens` archive of the specified scenes;
 	    + Then, refer to the [`preprocess_2d_scannet.py`](https://github.com/pengsongyou/openscene/blob/main/scripts/preprocess/preprocess_2d_scannet.py) script to extract the `color` and `pose` information;
 	    + Finally, convert the data into Blender format using the [`scripts/scannet2blender.py`](https://github.com/yanmin-wu/OpenGaussian/blob/main/scripts/scannet2blender.py) script. Please check the `TODO` comments in the script to specify the paths.
 + **[2] Prepare lerf_ovs Data**
-    + You can directly download our pre-processed data: [**OneDrive**](https://onedrive.live.com/?authkey=%21AIgsXZy3gl%5FuKmM&id=744D3E86422BE3C9%2139815&cid=744D3E86422BE3C9) (re-annotated by LangSplat). Please unzip the `images.zip` and `language_features.zip` files.
+    + You can directly download our pre-processed data: [**OneDrive**](https://onedrive.live.com/?authkey=%21AIgsXZy3gl%5FuKmM&id=744D3E86422BE3C9%2139815&cid=744D3E86422BE3C9) / [Baidu](https://pan.baidu.com/s/1B_tGYla5dWyJRu3jTNTMvA?pwd=u5iy) (re-annotated by LangSplat). Please unzip the `images.zip` and `language_features.zip` files.
 + **Mask and Language Feature Extraction Details**
     + We use the tools provided by LangSplat to extract the SAM mask and CLIP features, but we only use the large-level mask.
 
