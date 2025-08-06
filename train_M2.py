@@ -36,6 +36,7 @@ from utils.system_utils import mkdir_p
 from utils.opengs_utlis import mask_feature_mean, pair_mask_feature_mean, \
     get_SAM_mask_and_feat, load_code_book, \
     calculate_iou, calculate_distances, calculate_pairwise_distances
+from utils.sam_refinement_utils import MultiViewSAMMaskRefiner
 
 try:
     from torch.utils.tensorboard import SummaryWriter
@@ -155,7 +156,7 @@ def separation_loss(feat_mean_stack, iteration):
     return loss
 
 def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoint_iterations, \
-             checkpoint, debug_from):
+             checkpoint, debug_from, enable_multiview_refinement=False, verbose_logging=False):
     iterations = [opt.start_ins_feat_iter, opt.start_leaf_cb_iter, opt.start_root_cb_iter]
     saving_iterations.extend(iterations)
     checkpoint_iterations.extend(iterations)
@@ -383,6 +384,45 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
         if iteration <= opt.start_ins_feat_iter:
             Ll1 = l1_loss(image, gt_image)
             loss = (1.0 - opt.lambda_dssim) * Ll1 + opt.lambda_dssim * (1.0 - ssim(image, gt_image))
+
+        # ##############################################################################################
+        # Multi-view SAM mask refinement - Apply before processing individual views                    #
+        # ##############################################################################################
+        sam_level = opt.sam_level
+        if enable_multiview_refinement and iteration > opt.start_ins_feat_iter:
+            print("Applying multi-view SAM mask refinement...")
+    
+            # Collect original SAM masks from all cameras
+            original_sam_masks = []
+            cameras_to_refine = []
+            
+            for view in scene.getTrainCameras().copy():
+                if not view.data_on_gpu:
+                    view.to_gpu()
+                if view.original_sam_mask is not None:
+                    original_sam_masks.append(view.original_sam_mask.cuda())
+                    cameras_to_refine.append(view)
+                else:
+                    original_sam_masks.append(None)
+                    cameras_to_refine.append(view)
+            
+            # Apply multi-view refinement
+            refiner = MultiViewSAMMaskRefiner(verbose_logging=verbose_logging)
+            refined_sam_masks = refiner.refine_sam_masks(
+                cameras_to_refine, 
+                original_sam_masks, 
+                scene.gaussians, 
+                sam_level=sam_level
+            )
+            
+            # Update cameras with refined masks
+            for i, view in enumerate(scene.getTrainCameras()):
+                if refined_sam_masks[i] is not None:
+                    view.original_sam_mask = refined_sam_masks[i]
+                    
+            print("Multi-view SAM mask refinement completed")
+            enable_multiview_refinement=False
+        # END REFINEMENT
 
         # Start learning instance features after 3W steps.
         if iteration > opt.start_ins_feat_iter:
@@ -1016,6 +1056,9 @@ if __name__ == "__main__":
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument("--checkpoint_iterations", nargs="+", type=int, default=[])
     parser.add_argument("--start_checkpoint", type=str, default = None)
+    parser.add_argument("--enable_multiview_sam_refinement", action="store_true", default=False, 
+                       help="Enable multi-view SAM mask refinement")
+    parser.add_argument("--verbose_logging", action="store_true")
     args = parser.parse_args(sys.argv[1:])
     args.save_iterations.append(args.iterations)
     args.checkpoint_iterations.append(args.iterations)
@@ -1030,7 +1073,7 @@ if __name__ == "__main__":
     torch.autograd.set_detect_anomaly(args.detect_anomaly)
     training(lp.extract(args), op.extract(args), pp.extract(args), \
              args.test_iterations, args.save_iterations, args.checkpoint_iterations, \
-             args.start_checkpoint, args.debug_from)
+             args.start_checkpoint, args.debug_from, args.enable_multiview_sam_refinement, args.verbose_logging)
 
     # All done
     print("\nTraining complete.")
