@@ -419,6 +419,19 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
             for i, view in enumerate(scene.getTrainCameras()):
                 if refined_sam_masks[i] is not None:
                     view.original_sam_mask = refined_sam_masks[i]
+
+            # Clean up memory-intensive tensors stored on camera objects during refinement
+            for view in scene.getTrainCameras():
+                # Remove large tensors that accumulate during refinement process
+                if hasattr(view, 'pixel_value_tensor'):
+                    del view.pixel_value_tensor
+                if hasattr(view, 'depth_map'):
+                    del view.depth_map
+                if hasattr(view, 'unique_ids'):
+                    del view.unique_ids
+                    
+            # Clear CUDA cache to free GPU memory
+            torch.cuda.empty_cache()
                     
             print("Multi-view SAM mask refinement completed")
             enable_multiview_refinement=False
