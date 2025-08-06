@@ -1,5 +1,7 @@
 # MV-OpenGaussian
 
+📄 [Project Report](ProjectReport.pdf) - Detailed documentation of our project work and findings.
+
 ## Acknowledgements
 
 This repository is a modification of original [OpenGaussian](https://github.com/yanmin-wu/OpenGaussian) project.
@@ -33,7 +35,7 @@ pip install ./ashawkey-diff-gaussian-rasterization
 
 ### CLIP feature multi-view enhancement
 
-M1 and M2 modifications can be found in `train_M1.py` and `train_M2.py`.
+M1 and M2 modifications can be found in `train_M1.py` and `train_M2.py` (2 & 3 modifications).
 
 ### Multi-view SAM refinement
 
