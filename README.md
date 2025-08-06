@@ -31,6 +31,10 @@ pip install ./ashawkey-diff-gaussian-rasterization
 
 ## About modifications
 
+### CLIP feature multi-view enhancement
+
+M1 and M2 modifications can be found in `train_M1.py` and `train_M2.py`.
+
 ### Multi-view SAM refinement
 
 Modifications are located in `utils/sam_refinement_utils.py` and the respective launch lines are included in each of `train_baseline.py`, `train_M1.py` and `train_M2.py` and can be activated by setting `--enable_multiview_sam_refinement` in `train_scannet.sh`
